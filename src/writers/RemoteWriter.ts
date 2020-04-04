@@ -88,7 +88,6 @@ class RemoteWriter extends AbstractWriter {
     private serialize(event: IEvent): string {
         const { issuer, payload, severity } = event;
         const { navigator, screen, location } = window;
-
         const formatted: any = {
             issuer,
             severity: severityNames[severity],
@@ -98,7 +97,7 @@ class RemoteWriter extends AbstractWriter {
                 screen: {
                     w: screen.availWidth,
                     h: screen.availHeight,
-                    orientation: screen.orientation.type
+                    orientation: screen.orientation?.type
                 },
                 connection: (navigator as any)?.connection?.effectiveType,
             }
