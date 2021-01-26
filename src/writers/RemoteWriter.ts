@@ -42,9 +42,12 @@ class RemoteWriter extends AbstractWriter {
             return;
         }
 
-        const encoded = encodeURIComponent(btoa(
-            serializer ? serializer(event) : this.serialize(event)
-        ));
+        const serialized = serializer ? serializer(event) : this.serialize(event);
+        const encoded = encodeURIComponent(
+            btoa(
+                serialized.replace(/[\u00A0-\u2666]/g, (c) => '&#' + c.charCodeAt(0) + ';')
+            )
+        );
 
         // simple check to avoid multiple reports of the same event
         if(encoded === this.prevEvent) {
